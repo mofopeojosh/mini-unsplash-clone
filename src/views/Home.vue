@@ -21,17 +21,34 @@
 
                 <!--<div v-for="(item, index) in photoList" v-for="index in 7" :key="index" class="photo-wrapper">-->
 
-                <a href="" v-for="(item, index) in photoList" :key="index" class="photo-list-item" @click.prevent="previewImage(item)">
+                <template v-if="photoList.length">
+                    <a href="" v-for="(item, index) in photoList" :key="index" class="photo-list-item"
+                       @click.prevent="previewImage(item)">
 
-                    <div class="photo-image" :style="'background-image: url('+item.urls.regular+')'">
+                        <div class="photo-image" :style="'background-image: url('+item.urls.regular+')'">
 
-                        <div class="photo-info">
-                            <div>Roland Olagbaye</div>
-                            <small>London, United Kingdom</small>
+                            <div class="photo-info">
+                                <div>{{item.user.name}}</div>
+                                <small>{{item.user.location}}</small>
+                            </div>
+                        </div>
+
+                    </a>
+                </template>
+
+                <template v-else>
+
+                    <div v-for="index in 8" :key="index" class="photo-list-item">
+                        <div class="photo-list-placeholder">
+                            <div class="photo-info">
+                                <div class="photo-info-title"></div>
+                                <div class="photo-info-subtitle"></div>
+                            </div>
                         </div>
                     </div>
 
-                </a>
+                </template>
+
 
             </div>
         </main>
@@ -69,7 +86,7 @@ export default {
     methods: {
         getPhotos() {
             let params = { per_page: 7 };
-            if(this.q){
+            if (this.q) {
                 params.query = this.q
             }
             console.log(this.photoList)
@@ -175,7 +192,7 @@ export default {
                         color: #FFFFFF;
                     }
 
-                    .photo-image {
+                    .photo-image, .photo-list-placeholder {
                         display: flex;
                         flex-direction: column;
                         justify-content: flex-end;
@@ -187,9 +204,22 @@ export default {
                         background-repeat: no-repeat;
                     }
 
-                    .photo-info{
+                    .photo-info {
                         z-index: 2;
                         padding: 20px;
+
+                        &-title {
+                            height: 15px;
+                            background-color: #EEF1FA;
+                            width: 100px;
+                        }
+
+                        &-subtitle {
+                            height: 15px;
+                            margin-top: 10px;
+                            background-color: #EEF1FA;
+                            width: 150px;
+                        }
                     }
 
                     &:nth-child(n) {

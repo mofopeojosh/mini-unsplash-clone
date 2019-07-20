@@ -12,8 +12,8 @@
             <div class="previewer-image" :style="'background-image: url('+preview.urls.regular+')'"></div>
 
             <div class="previewer-footer">
-                <div>Roland Olagbaye</div>
-                <small>London, United Kingdom</small>
+                <div>{{preview.user.name}}</div>
+                <small>{{preview.user.location}}</small>
             </div>
 
         </div>
@@ -59,7 +59,7 @@ export default {
         bottom: 0;
         right: 0;
         height: 100vh;
-        padding: 80px 4%;
+        padding: 40px 4%;
         background-color: rgba(0, 0, 0, 0.4);
 
         .previewer-close {
