@@ -122,7 +122,7 @@ export default {
     .home {
 
         .header {
-            padding: 5.625rem 9%;
+            padding: 90px 9%;
             background-color: #DCE2E9;
 
             .header-search-title {
@@ -137,16 +137,16 @@ export default {
 
 
             &-search {
-                height: 4rem;
+                height: 64px;
                 display: flex;
                 align-items: center;
-                padding: 0 1.625rem;
+                padding: 0 26px;
                 border-radius: 8px;
                 background-color: #FFFFFF;
                 box-shadow: 0px 15px 30px rgba(0, 0, 0.1, 0.08);
 
                 .header-icon {
-                    margin-right: 1.5rem;
+                    margin-right: 20px;
                 }
 
                 .header-input {
