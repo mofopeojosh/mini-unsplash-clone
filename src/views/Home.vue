@@ -4,7 +4,7 @@
         <header class="header">
 
             <h1 v-if="q" class="header-search-title">Search Results for
-                <q><span class="search-query">{{q}}</span></q>
+                "<span class="search-query">{{q}}</span>"
             </h1>
 
             <form class="header-search" @submit.prevent="searchPhotos" v-else>
@@ -17,32 +17,34 @@
         </header>
 
         <main class="main-content">
+
             <div class="photo-list">
 
-                <!--<div v-for="(item, index) in photoList" v-for="index in 7" :key="index" class="photo-wrapper">-->
-
                 <template v-if="photoList.length">
-                    <a href="" v-for="(item, index) in photoList" :key="index" class="photo-list-item"
-                       @click.prevent="previewImage(item)">
 
-                        <div class="photo-image" :style="'background-image: url('+item.urls.regular+')'">
+                    <div v-for="(item, index) in photoList"
+                       :key="index" class="photo-list-item"
+                       @click.prevent="previewPhoto(item)"
+                       :style="'background-image: url('+item.urls.regular+')'">
 
+                        <div class="photo-overlay">
                             <div class="photo-info">
                                 <div>{{item.user.name}}</div>
                                 <small>{{item.user.location}}</small>
                             </div>
                         </div>
 
-                    </a>
+                    </div>
+
                 </template>
 
                 <template v-else>
 
                     <div v-for="index in 8" :key="index" class="photo-list-item">
-                        <div class="photo-list-placeholder">
+                        <div class="photo-placeholder">
                             <div class="photo-info">
-                                <div class="photo-info-title"></div>
-                                <div class="photo-info-subtitle"></div>
+                                <div class="photo-placeholder-text photo-info-title"></div>
+                                <div class="photo-placeholder-text photo-info-subtitle"></div>
                             </div>
                         </div>
                     </div>
@@ -81,7 +83,8 @@ export default {
         }
     },
     mounted() {
-        this.getPhotos()
+        //Setting a timeout to show the placeholder for a few seconds
+        setTimeout(this.getPhotos, 3000)
     },
     methods: {
         getPhotos() {
@@ -89,7 +92,6 @@ export default {
             if (this.q) {
                 params.query = this.q
             }
-            console.log(this.photoList)
             this.$axios.get('/photos', { params: params })
                 .then(response => {
                     this.photoList = response.data
@@ -101,8 +103,7 @@ export default {
                 query: { q: this.searchQuery }
             })
         },
-        previewImage(item) {
-            // this.preview = { src: 'nuu.jpeg' }
+        previewPhoto(item) {
             this.preview = item
             this.showPreview = true
         },
@@ -118,24 +119,25 @@ export default {
     .home {
 
         .header {
-            background-color: #EEF1FA;
             padding: 5.625rem 9%;
+            background-color: #DCE2E9;
 
             .header-search-title {
+                color: var(--primary-color);
                 font-size: 40px;
             }
 
             .search-query {
+                color: var(--secondary-color);
                 text-transform: capitalize;
-                color: #a0aeb0;
             }
 
 
             &-search {
+                height: 4rem;
                 display: flex;
                 align-items: center;
-                padding: 0 1.25rem;
-                height: 4rem;
+                padding: 0 1.625rem;
                 border-radius: 8px;
                 background-color: #FFFFFF;
                 box-shadow: 0px 15px 30px rgba(0, 0, 0.1, 0.08);
@@ -147,80 +149,43 @@ export default {
                 .header-input {
                     padding: 0;
                     width: 100%;
-                    font-size: 18px;
-                    border: none;
                     height: 100%;
+                    border: none;
+                    font-size: 18px;
 
                     &:focus {
                         outline: none;
                         border: none;
+                    }
+
+                    &::placeholder{
+                        color: var(--primary-color);
                     }
                 }
             }
         }
 
         .main-content {
+            padding: 0 12%;
             margin-top: -40px;
             margin-bottom: 40px;
-            padding: 0 12%;
 
             .photo-list {
                 display: grid;
+                grid-row-gap: 40px;
                 grid-auto-rows: 20px;
+                grid-column-gap: 60px;
                 justify-items: center;
                 justify-content: space-between;
                 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                grid-column-gap: 60px;
-                grid-row-gap: 40px;
 
                 .photo-list-item {
-                    position: relative;
-                    text-decoration: none;
-                    color: #FFFFFF;
                     width: 100%;
                     height: 100%;
-
-                    &:before {
-                        content: '';
-                        position: absolute;
-                        background-color: #000000;
-                        border-radius: 8px;
-                        height: 100%;
-                        width: 100%;
-                        top: 0;
-                        background-color: rgba(0, 0, 0, 0.3);
-                        color: #FFFFFF;
-                    }
-
-                    .photo-image, .photo-list-placeholder {
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: flex-end;
-                        border-radius: 8px;
-                        width: 100%;
-                        height: 100%;
-                        background-position: center;
-                        background-size: cover;
-                        background-repeat: no-repeat;
-                    }
-
-                    .photo-info {
-                        z-index: 2;
-                        padding: 20px;
-
-                        &-title {
-                            height: 15px;
-                            background-color: #EEF1FA;
-                            width: 100px;
-                        }
-
-                        &-subtitle {
-                            height: 15px;
-                            margin-top: 10px;
-                            background-color: #EEF1FA;
-                            width: 150px;
-                        }
-                    }
+                    border-radius: 8px;
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
 
                     &:nth-child(n) {
                         grid-row-end: span 8;
@@ -239,11 +204,61 @@ export default {
                     }
                 }
 
-            }
+                @media only screen and (min-width: 998px) {
+                    .images {
+                        grid-template-columns: repeat(3, minmax(300px, 1fr));
+                    }
+                }
 
-            @media only screen and (min-width: 998px) {
-                .images {
-                    grid-template-columns: repeat(3, minmax(300px, 1fr));
+                .photo-overlay, .photo-placeholder {
+                    height: 100%;
+                    display: flex;
+                    border-radius: 8px;
+                    flex-direction: column;
+                    justify-content: flex-end;
+
+                    .photo-info {
+                        color: #FFFFFF;
+                        padding: 20px;
+                    }
+                }
+
+                .photo-overlay {
+                    cursor: pointer;
+                    background-color: rgba(0, 0, 0, 0.1);
+                }
+
+                .photo-placeholder {
+                    background-color: #F5F5F5;
+
+                    @keyframes placeHolderShimmer{
+                        0%{
+                            background-position: -400px 0
+                        }
+                        100%{
+                            background-position: 400px 0
+                        }
+                    }
+
+                    &-text {
+                        height: 15px;
+                        margin-bottom: 8px;
+                        animation-duration: 1.5s;
+                        animation-fill-mode: forwards;
+                        animation-iteration-count: infinite;
+                        animation-name: placeHolderShimmer;
+                        animation-timing-function: linear;
+                        background: #E6E6E6 linear-gradient(to right, #EFEFEF 8%, #DFDFDF 18%, #EFEFEF 33%);
+                        background-size: 800px 104px;
+                    }
+
+                    .photo-info-title {
+                        width: 180px;
+                    }
+
+                    .photo-info-subtitle {
+                        width: 100px;
+                    }
                 }
             }
         }

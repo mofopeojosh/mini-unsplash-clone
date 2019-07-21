@@ -11,9 +11,9 @@
 
             <div class="previewer-image" :style="'background-image: url('+preview.urls.regular+')'"></div>
 
-            <div class="previewer-footer">
-                <div>{{preview.user.name}}</div>
-                <small>{{preview.user.location}}</small>
+            <div class="previewer-info">
+                <div class="previewer-title">{{preview.user.name}}</div>
+                <div class="previewer-subtitle">{{preview.user.location}}</div>
             </div>
 
         </div>
@@ -33,16 +33,14 @@ export default {
         preview: Object
     },
     mounted() {
-        document.addEventListener("keydown", this.handleEscape);
+        //hide body overflow
+        document.querySelector("body").style.overflow = 'hidden';
     },
     methods: {
         closePreview() {
+            //reset body overflow to default
+            document.querySelector("body").style.overflow = 'visible';
             this.$emit('close')
-        },
-        handleEscape(e) {
-            if (e.keyCode === 27) { // ESC
-                this.closePreview()
-            }
         }
     }
 }
@@ -51,14 +49,14 @@ export default {
 <style lang="scss" scoped>
 
     .previewer {
-        position: fixed;
-        overflow: auto;
-        z-index: 999;
         top: 0;
         left: 0;
-        bottom: 0;
         right: 0;
+        bottom: 0;
+        z-index: 999;
         height: 100vh;
+        position: fixed;
+        overflow: auto;
         padding: 40px 4%;
         background-color: rgba(0, 0, 0, 0.4);
 
@@ -70,12 +68,12 @@ export default {
             padding: 0 5%;
 
             .previewer-image {
+                height: 400px;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
                 border-top-left-radius: 10px;
                 border-top-right-radius: 10px;
-                height: 400px;
-                background-position: center;
-                background-size: cover;
-                background-repeat: no-repeat;
             }
 
             @media only screen and (min-width: 700px) {
@@ -84,11 +82,22 @@ export default {
                 }
             }
 
-            .previewer-footer {
-                padding: 16px;
+            .previewer-info {
+                padding: 24px 34px;
                 background-color: #FFFFFF;
                 border-bottom-left-radius: 10px;
                 border-bottom-right-radius: 10px;
+
+                .previewer-title{
+                    font-size: 22px;
+                    margin-bottom: 8px;
+                    color: var(--primary-color);
+                }
+
+                .previewer-subtitle{
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
             }
 
         }

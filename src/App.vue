@@ -6,15 +6,12 @@
 
 <style lang="scss">
     :root{
-        font-size: 18px;
+        font-size: 16px;
+        --primary-color: #233559;
+        --secondary-color: #707F96;
     }
     body{
         margin: 0;
-    }
-    #app {
-        height: 100%;
-        width: 100%;
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        color: #2c3e50;
+        font-family: Helvetica, "Droid Sans Mono", Arial, serif;
     }
 </style>
