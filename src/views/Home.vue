@@ -23,9 +23,9 @@
                 <template v-if="photoList.length">
 
                     <div v-for="(item, index) in photoList"
-                       :key="index" class="photo-list-item"
-                       @click.prevent="previewPhoto(item)"
-                       :style="'background-image: url('+item.urls.regular+')'">
+                         :key="index" class="photo-list-item"
+                         @click.prevent="previewPhoto(item)"
+                         :style="'background-image: url('+item.urls.regular+')'">
 
                         <div class="photo-overlay">
                             <div class="photo-info">
@@ -82,9 +82,12 @@ export default {
             preview: {}
         }
     },
-    mounted() {
-        //Setting a timeout to show the placeholder for a few seconds
-        setTimeout(this.getPhotos, 3000)
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            vm.photoList = []
+            //Setting a timeout to show the placeholder for a few seconds
+            setTimeout(vm.getPhotos, 2000)
+        })
     },
     methods: {
         getPhotos() {
@@ -158,7 +161,7 @@ export default {
                         border: none;
                     }
 
-                    &::placeholder{
+                    &::placeholder {
                         color: var(--primary-color);
                     }
                 }
@@ -231,11 +234,11 @@ export default {
                 .photo-placeholder {
                     background-color: #F5F5F5;
 
-                    @keyframes placeHolderShimmer{
-                        0%{
+                    @keyframes placeHolderShimmer {
+                        0% {
                             background-position: -400px 0
                         }
-                        100%{
+                        100% {
                             background-position: 400px 0
                         }
                     }
