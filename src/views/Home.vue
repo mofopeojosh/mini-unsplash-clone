@@ -168,7 +168,7 @@ export default {
         .main-content {
             padding: 0 12%;
             margin-top: -40px;
-            margin-bottom: 40px;
+            margin-bottom: 60px;
 
             .photo-list {
                 display: grid;
