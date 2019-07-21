@@ -22,13 +22,9 @@
 </template>
 
 <script>
-import { Fragment } from 'vue-fragment';
 
 export default {
     name: "ImageCard",
-    components: {
-        Fragment
-    },
     props: {
         preview: Object
     },
