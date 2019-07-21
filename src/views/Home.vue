@@ -4,7 +4,7 @@
         <header class="header">
 
             <h1 v-if="q" class="header-search-title">Search Results for
-                "<span class="search-query">{{q}}</span>"
+                &quot;<span class="search-query">{{q}}</span>&quot;
             </h1>
 
             <form class="header-search" @submit.prevent="searchPhotos" v-else>
